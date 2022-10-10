@@ -18,5 +18,10 @@ export class GlassesComponent implements OnInit {
   ]
   ngOnInit(): void {
   }
+  searchtext:string=''
+  onsearchtextenrt(searchvalue:string){
+    this.searchtext=searchvalue;
+    console.log(this.searchtext);
+  }
 
 }

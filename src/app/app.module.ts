@@ -17,6 +17,8 @@ import { CameraComponent } from './camera/camera.component';
 import { LaptopComponent } from './laptop/laptop.component';
 import { MobileComponent } from './mobile/mobile.component';
 import { GlassesComponent } from './glasses/glasses.component';
+import { SearchComponent } from './search/search.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -33,12 +35,14 @@ import { GlassesComponent } from './glasses/glasses.component';
     CameraComponent,
     LaptopComponent,
     MobileComponent,
-    GlassesComponent
+    GlassesComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
