@@ -1,9 +1,25 @@
+<div class="sear">
+    <form action="">
+        <div class="input-group" >
+            <app-search (searchtextchange)="onsearchtextenrt($event)"></app-search>
+            <div class="input-group-append">
+                <span class="input-group-text bg-transparent text-primary">
+                    <i class="fa fa-search"></i>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
 <h2 class="add">Cameras</h2>
 <div  class="row pb-3 body">
-<div class="col-lg-3 col-md-6 col-sm-6 pb-1" *ngFor="let product of products" class="card" style="width: 18rem;">
+<div class="col-lg-3 col-md-6 col-sm-6 pb-1" *ngFor="let product of Tproducts" class="card" style="width: 18rem;">
+    <div *ngIf="product.name.includes(searchtext)||searchtext === '' then thenBlock;">
+
+    </div>
+    <ng-template #thenBlock>
     <div class="product-item bg-light mb-4">
         <div class="product-img position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="./assets/img/product-1.jpg" alt="">
+            <img class="img-fluid w-100" src="./assets/{{product.pictureLink}}" alt="">
             <div class="product-action">
                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -27,5 +43,7 @@
             </div>
         </div>
     </div>
+</ng-template >
+
 </div>
 </div>

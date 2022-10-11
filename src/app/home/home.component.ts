@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from '../Services/product-service.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import { ProductServiceService } from '../Services/product-service.service';
 })
 export class HomeComponent implements OnInit {
   
-  constructor(private Service:ProductServiceService) { }
+  constructor(private Service:ProductServiceService, private router: Router) { }
   
   products:any []=[];
   
@@ -28,6 +29,10 @@ export class HomeComponent implements OnInit {
     for (const iterator of arr) {
       console.log(iterator);
     }
+  }
+
+  goToProductDetails(productId: any) {
+    this.router.navigate(['/home', productId,])
   }
 
   ngOnInit(): void {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ProductServiceService } from '../Services/product-service.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 @Component({
   selector: 'app-mobile',
   templateUrl: './mobile.component.html',
@@ -7,16 +8,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MobileComponent implements OnInit {
 
-  constructor() { }
-  products=[
-    {"id":1 , "name":"Iphone 13" , "price":10000, "oprice":12000 ,"type":"NoDiscount","Disc":"256 6Ram"},
-    {"id":2 , "name":"Sony xperia" , "price":5000,"oprice":6000 ,"type":"Discount","Disc":"128 3Ram"},
-    {"id":3 , "name":"Samsung Not10" , "price":6000,"oprice":6500 ,"type":"NoDiscount","Disc":"64 6am"},
-    {"id":4 , "name": "Xaomi 10T" , "price":1200,"oprice":1300 ,"type":"Discount","Disc":"512 8Ram"},
-    {"id":5 , "name":"oppo A53" , "price":10000 ,"oprice":12000 ,"type":"NoDiscount","Disc":"128 4Ram"},
-
-  ]
+  constructor(private Service: ProductServiceService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  products: any[] = [];
+  Tproducts: any[] = [];
+  ttproducts: any[] = [16,17,18,19,20];
   ngOnInit(): void {
+    this.Service.getMongoProducts().subscribe((receivedProducts) => {
+      this.products = receivedProducts as Array<any>;
+      this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+        for(let i=0;i<this.products.length;i++){
+          for(let l=0;l<this.ttproducts.length;l++){
+          if(this.products[i].id == this.ttproducts[l] )
+            this.Tproducts.push(this.products[i]);
+          }
+  
+        }
+        console.log(this.Tproducts);
+        console.log(this.Tproducts[1].name);
+      })
+    },
+      (err) => {
+        console.log("there is an error in laoding products in home!")
+      })
+
+  };
+  searchtext:string=''
+  onsearchtextenrt(searchvalue:string){
+    this.searchtext=searchvalue;
+    console.log(this.searchtext);
   }
 
 }
