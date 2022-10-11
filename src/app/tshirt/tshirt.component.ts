@@ -22,6 +22,9 @@ export class TshirtComponent implements OnInit {
   // }
   
   constructor(private Service: ProductServiceService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  goToProductDetails(productId: any) {
+    this.router.navigate(['/home/t-shirts', productId,])
+  }
   products: any[] = [];
   Tproducts: any[] = [];
   ttproducts: any[] = [6,7,8,9,10];
