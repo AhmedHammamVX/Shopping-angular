@@ -1,7 +1,11 @@
 const mongoDB=require('mongoose')
 
 const userSchema=mongoDB.Schema({
-    username:{
+    firstname:{
+        require:true,
+        type: String,
+    },
+    lastname:{
         require:true,
         type: String,
     },
@@ -13,7 +17,31 @@ const userSchema=mongoDB.Schema({
         require:true,
         type: String,
     },
-    whereHearAboutUs:{
+    mobileNo:{
+        require:true,
+        type: String,
+    },
+    address1:{
+        require:true,
+        type: String,
+    },
+    address2:{
+        require:false,
+        type: String,
+    },
+    country:{
+        require:true,
+        type: String,
+    },
+    city:{
+        require:true,
+        type: String,
+    },
+    state:{
+        require:true,
+        type: String,
+    },
+    ZIPcode:{
         require:true,
         type: String,
     }

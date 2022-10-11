@@ -54,10 +54,17 @@ app.post('/signUp',function(req,res){
             return;
         }else{
             const newUser=new User({
-                username: req.body.userName,
-                email:req.body.email,
-                password:req.body.password,
-                whereHearAboutUs:req.body.whereYouHear
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                email: req.body.email,
+                password: req.body.password,
+                mobileNo: req.body.mobileNo,
+                address1: req.body.address1,
+                address2: req.body.address2,
+                country: req.body.country,
+                city: req.body.city,
+                state: req.body.state,
+                ZIPcode: req.body.ZIPcode
             });
             newUser.save((err,res)=>{
                 if(err){
@@ -71,13 +78,13 @@ app.post('/signUp',function(req,res){
     })
 })
 app.post('/login',function(req,res){
-    User.find({username:(req.body.username),password:(req.body.password)},(err,findRes)=>{
+    User.find({email:(req.body.email),password:(req.body.password)},(err,findRes)=>{
         if(err){
-            console.log("error when find username");
+            console.log("error when find email");
             return;
         }
         if(findRes ==''){
-            res.status(200).send({"result":"wrong username or password"})
+            res.status(200).send({"result":"wrong email or password"})
             return;
         }else{
             res.status(200).send({"result":"done"})
