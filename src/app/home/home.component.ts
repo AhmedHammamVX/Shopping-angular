@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from '../Services/product-service.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +12,6 @@ export class HomeComponent implements OnInit {
   
   products:any []=[];
   
-
   //loading random products
   randomProducts = (receivedProducts:any)=>{
     let arr:number[]=[];
@@ -36,7 +34,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    arrOfProduct:Array<any>;
     this.Service.getMongoProducts().subscribe((receivedProducts)=>{
+      localStorage.setItem("allProducts",JSON.stringify(receivedProducts));
       this.randomProducts(receivedProducts);
     },
     (err)=>{
