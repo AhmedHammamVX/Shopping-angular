@@ -13,6 +13,9 @@ export class CameraComponent implements OnInit {
   products: any[] = [];
   Tproducts: any[] = [];
   ttproducts: any[] = [1,2,3,4,5];
+  goToProductDetails(productId: any) {
+    this.router.navigate(['/home/t-shirts', productId,])
+  }
   ngOnInit(): void {
     this.Service.getMongoProducts().subscribe((receivedProducts) => {
       this.products = receivedProducts as Array<any>;

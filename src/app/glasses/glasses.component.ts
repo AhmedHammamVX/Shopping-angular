@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductServiceService } from '../Services/product-service.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-glasses',
@@ -7,21 +9,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GlassesComponent implements OnInit {
 
-  constructor() { }
-  products=[
-    {"id":1 , "name":"Ray Ban" , "price":10000, "oprice":12000 ,"type":"NoDiscount",},
-    {"id":2 , "name":"Gucci" , "price":10000, "oprice":12000 ,"type":"NoDiscount",},
-    {"id":3 , "name":"Oakley" , "price":10000, "oprice":12000 ,"type":"NoDiscount",},
-    {"id":4 , "name":"Prada" , "price":10000, "oprice":12000 ,"type":"NoDiscount",},
-    {"id":5 , "name":"Christiane Dio" , "price":10000, "oprice":12000 ,"type":"NoDiscount",},
-
-  ]
-  ngOnInit(): void {
+  constructor(private Service: ProductServiceService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  products: any[] = [];
+  Tproducts: any[] = [];
+  ttproducts: any[] = [31,32,33,34,35];
+  goToProductDetails(productId: any) {
+    this.router.navigate(['/home/t-shirts', productId,])
   }
+  ngOnInit(): void {
+    this.Service.getMongoProducts().subscribe((receivedProducts) => {
+      this.products = receivedProducts as Array<any>;
+      this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+        for(let i=0;i<this.products.length;i++){
+          for(let l=0;l<this.ttproducts.length;l++){
+          if(this.products[i].id == this.ttproducts[l] )
+            this.Tproducts.push(this.products[i]);
+          }
+  
+        }
+        console.log(this.Tproducts);
+        console.log(this.Tproducts[1].name);
+      })
+    },
+      (err) => {
+        console.log("there is an error in laoding products in home!")
+      })
+
+  };
   searchtext:string=''
   onsearchtextenrt(searchvalue:string){
     this.searchtext=searchvalue;
     console.log(this.searchtext);
   }
+
 
 }

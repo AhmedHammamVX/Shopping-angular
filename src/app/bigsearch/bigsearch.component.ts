@@ -2,16 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from '../Services/product-service.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 @Component({
-  selector: 'app-mobile',
-  templateUrl: './mobile.component.html',
-  styleUrls: ['./mobile.component.css']
+  selector: 'app-bigsearch',
+  templateUrl: './bigsearch.component.html',
+  styleUrls: ['./bigsearch.component.css']
 })
-export class MobileComponent implements OnInit {
+export class BigsearchComponent implements OnInit {
 
-  constructor(private Service: ProductServiceService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private Service:ProductServiceService, private router: Router, private activatedRoute: ActivatedRoute) { }
   products: any[] = [];
-  Tproducts: any[] = [];
-  ttproducts: any[] = [16,17,18,19,20];
+  newproducts: any[] = [];
   goToProductDetails(productId: any) {
     this.router.navigate(['/home/t-shirts', productId,])
   }
@@ -19,26 +18,27 @@ export class MobileComponent implements OnInit {
     this.Service.getMongoProducts().subscribe((receivedProducts) => {
       this.products = receivedProducts as Array<any>;
       this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
-        for(let i=0;i<this.products.length;i++){
-          for(let l=0;l<this.ttproducts.length;l++){
-          if(this.products[i].id == this.ttproducts[l] )
-            this.Tproducts.push(this.products[i]);
-          }
-  
-        }
-        console.log(this.Tproducts);
-        console.log(this.Tproducts[1].name);
+        console.log(this.products);
       })
     },
       (err) => {
         console.log("there is an error in laoding products in home!")
       })
-
   };
   searchtext:string=''
   onsearchtextenrt(searchvalue:string){
     this.searchtext=searchvalue;
     console.log(this.searchtext);
+    for(let i=0;i<this.products.length;i++){
+      if(this.products[i].name.includes(this.searchtext)){
+        this.newproducts.push(this.products[i])
+      }
   }
-
+  let uniqueChars = [...new Set(this.newproducts)];
+  this.newproducts=uniqueChars;
+  if(this.searchtext==''){
+    this.newproducts=[];
+  }
+  }
+     
 }

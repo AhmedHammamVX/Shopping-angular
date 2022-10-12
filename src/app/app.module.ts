@@ -20,6 +20,9 @@ import { MobileComponent } from './mobile/mobile.component';
 import { GlassesComponent } from './glasses/glasses.component';
 import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BigsearchComponent } from './bigsearch/bigsearch.component';
+
 
 @NgModule({
   declarations: [
@@ -38,12 +41,15 @@ import { FormsModule } from '@angular/forms';
     MobileComponent,
     GlassesComponent,
     SearchComponent,
+    BigsearchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgxSpinnerModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
