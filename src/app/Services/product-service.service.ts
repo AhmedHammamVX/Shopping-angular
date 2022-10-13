@@ -1,3 +1,4 @@
+import { query } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
@@ -23,4 +24,10 @@ export class ProductServiceService {
        return throwError(()=>(err.message || "Internal Server error"));
        }))
    }
+
+   getMongoProductsPaginate(page:number,limit:number,priceQuery:any,colorQuery:any,sizeQuery:any){
+    return this.http.get(this.getProductsUrl+`?page=${page}&limit=${limit}`,{params:{"priceQuery":priceQuery,"colorQuery":colorQuery,"sizeQuery":sizeQuery},}).pipe(catchError((err)=>{
+      return throwError(()=>(err.message || "Internal Server error"));
+      }))
+  }
 }

@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { LaptopComponent } from './laptop/laptop.component';
 import { MobileComponent } from './mobile/mobile.component';
 import { ShopComponent } from './shop/shop.component';
+import { SigninComponent } from './signin/signin.component';
+import { SignupComponent } from './signup/signup.component';
 import { TshirtComponent } from './tshirt/tshirt.component';
 
 const routes: Routes = [
@@ -24,7 +26,9 @@ const routes: Routes = [
   {path:  'camera',component:CameraComponent},
   {path:  'laptop',component:LaptopComponent},
   {path:  'mobile',component:MobileComponent},
-  {path:  'glass',component:GlassesComponent,}
+  {path:  'glass',component:GlassesComponent},
+  { path: 'signin', component:SigninComponent},
+  {path:'signup', component:SignupComponent}
 
 
 

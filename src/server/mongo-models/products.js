@@ -1,4 +1,5 @@
 const mongoDB=require('mongoose')
+const mongoosePaginate = require('mongoose-paginate');
 
 const productSchema=mongoDB.Schema({
     id:{
@@ -31,5 +32,7 @@ const productSchema=mongoDB.Schema({
     },
 
 });
+
+productSchema.plugin(mongoosePaginate);
 
 module.exports = mongoDB.model("Product",productSchema);

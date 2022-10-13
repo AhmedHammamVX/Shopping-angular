@@ -4,8 +4,9 @@ const cors=require('cors');
 const User=require('./mongo-models/users');
 const Product=require('./mongo-models/products');
 const mongoBD=require('mongoose');
-const { async } = require('rxjs');
+const { async, filter } = require('rxjs');
 const products = require('./mongo-models/products');
+const { json } = require('body-parser');
 
 
 
@@ -78,7 +79,7 @@ app.post('/signUp',function(req,res){
     })
 })
 app.post('/login',function(req,res){
-    User.find({email:(req.body.email),password:(req.body.password)},(err,findRes)=>{
+    User.find({email:(req.body.EmailName),password:(req.body.PasswordName)},(err,findRes)=>{
         if(err){
             console.log("error when find email");
             return;
@@ -87,7 +88,7 @@ app.post('/login',function(req,res){
             res.status(200).send({"result":"wrong email or password"})
             return;
         }else{
-            res.status(200).send({"result":"done"})
+            res.status(200).send({"result":"done","userData":findRes})
         }
     })
 })
@@ -126,7 +127,29 @@ app.post('/addproduct',function(req,res){
 })
 
 app.get('/getProducts',function(req,res){
-    console.log("hhhhhhhhhhhhhheeeeeeeeeereeeeee");
+    // let total="";
+    // if(req.query.page && req.query.limit){
+    //   console.log("price query :",req.query.priceQuery);
+    //   console.log("color query :",req.query.colorQuery);
+    //   console.log("size query :",req.query.sizeQuery);
+    //   arr=[req.query.priceQuery,req.query.colorQuery,req.query.sizeQuery];
+
+    //     for(let i=0;i<3;i++){
+    //         if(arr[i] !="" && i==0){
+    //             total=arr[i];
+    //         }else if(arr[i] !=""){
+    //             total=total+","+arr[i];
+    //         }}
+
+
+    // Product.paginate({total},{page:req.query.page,limit:req.query.limit}).then((response)=>{
+    //     res.json(response);
+    // }).catch((error)=>{
+    //     res.json({
+    //         message:"An error occured when paginate "+error
+    //     })
+    // });}else{
+
     Product.find({},(err,findRes)=>{
         if(err){
             console.log("error when find accounts");
@@ -134,7 +157,7 @@ app.get('/getProducts',function(req,res){
         }else{
             res.status(200).send(findRes);
         }
-    })
+    });
 })
 
 

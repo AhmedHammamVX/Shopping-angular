@@ -20,6 +20,8 @@ import { MobileComponent } from './mobile/mobile.component';
 import { GlassesComponent } from './glasses/glasses.component';
 import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
+import { SigninComponent } from './signin/signin.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -38,12 +40,15 @@ import { FormsModule } from '@angular/forms';
     MobileComponent,
     GlassesComponent,
     SearchComponent,
+    SigninComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

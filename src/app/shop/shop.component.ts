@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { __values } from 'tslib';
+import { ProductServiceService } from '../services/product-service.service';
 
 @Component({
   selector: 'app-shop',
@@ -22,10 +23,17 @@ export class ShopComponent implements OnInit {
   priceFilter = new Set<any>([]);
   colorFilter = new Set<any>([]);
   sizeFilter = new Set<any>([]);
-  showingNumber:number=10;
-  pageCount:number=Math.ceil(this.allProducts.length/this.showingNumber);
+ priceQuery:Array<string>=[];
+  colorQuery:Array<string>=[];
+  sizeQuery:Array<string>=[];
+  
+  finalpriceQuery="";
+  finalcolorQuery="";
+  finalsizeQuery="";
+  limit:number=10;
+  currentPage:number=1;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder , private ps:ProductServiceService) {
     this.priceForm = fb.group({
       selectedPrices: new FormArray([new FormControl("All Price")]),
     });
@@ -94,6 +102,7 @@ export class ShopComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.changeShowing();
   }
 
   onPriceFilterChange(event: any) {
@@ -106,6 +115,8 @@ export class ShopComponent implements OnInit {
       selectedPrices.removeAt(index);
     }
     this.filter("price");
+  //   this.filterInMongo("price");
+
   }
 
   onColorFilterChange(event: any) {
@@ -118,6 +129,7 @@ export class ShopComponent implements OnInit {
       selectedColors.removeAt(index);
     }
     this.filter("color");
+    // this.filterInMongo("color");
   }
 
   onSizeFilterChange(event: any) {
@@ -130,7 +142,134 @@ export class ShopComponent implements OnInit {
       selectedSizes.removeAt(index);
     }
     this.filter("size");
+   // this.filterInMongo("size");
   }
+
+ /* 
+  filterInMongo(key:string) {
+    this.resultFilter.clear();
+    switch (key) {
+      case "price":
+        let seletedP = new Set(this.priceForm.get("selectedPrices")?.value);
+        this.priceQuery=[];
+        if (seletedP.has("All Price") || seletedP.size==0) {
+          this.finalpriceQuery="";
+        }else{
+            if (seletedP.has("$0 - $100")) {
+                this.priceQuery.push("{price: {$gt : 0}, price: {$lt:100}}");
+            }
+            if (seletedP.has("$100 - $200")) {
+              this.priceQuery.push("{price: {$gt : 100}, price: {$lt:200}}");
+            }
+            if (seletedP.has("$200 - $300")) {
+              this.priceQuery.push("{price: {$gt : 200}, price: {$lt:300}}");
+            }
+            if (seletedP.has("$300 - $400")) {
+              this.priceQuery.push("{price: {$gt : 300}, price: {$lt:400}}");
+            }
+            if (seletedP.has("$400 - $500")) {
+              this.priceQuery.push("{price: {$gt : 400}, price: {$lt:500}}");
+            }
+        }
+        break;
+
+      case "color":
+        let selectedC = new Set(this.colorForm.get("selectedColors")?.value);
+        this.colorQuery=[];
+        if (selectedC.has("All Color") || selectedC.size==0 ) {
+             this.finalcolorQuery="";
+       }else{
+            if (selectedC.has("Red")) {
+              this.colorQuery.push("{color:'red'}");
+            }
+           if (selectedC.has("Green")) {
+              this.colorQuery.push("{color:'green'}");
+            }
+           if (selectedC.has("Blue")) {
+              this.colorQuery.push("{color:'blue'}");
+            }
+           if (selectedC.has("White")) {
+              this.colorQuery.push("{color:'white'}");
+            }
+           if (selectedC.has("Black")) {
+              this.colorQuery.push("{color:'black'}");
+            }
+          }
+        
+        break;
+      case "size":
+        let selectedS = new Set(this.sizeForm.get("selectedSizes")?.value);
+        this.sizeQuery=[];
+        if (selectedS.has("All Size") || selectedS.size==0) {
+          this.finalsizeQuery="";
+       }else{
+            if (selectedS.has("XS")) {
+              this.sizeQuery.push("{size:'XS'}");
+            }
+           if (selectedS.has("S")) {
+              this.sizeQuery.push("{size:'S'}");
+            }
+             if (selectedS.has("M")) {
+              this.sizeQuery.push("{size:'M'}");
+            }
+             if (selectedS.has("L")) {
+              this.sizeQuery.push("{size:'L'}");
+            }
+             if (selectedS.has("XL")) {
+              this.sizeQuery.push("{size:'XL'}");
+            }
+        }
+        break;
+    }
+
+    var total=""
+    if(this.priceQuery.length==0){
+      this.finalpriceQuery="";
+    }else if(this.priceQuery.length==1){
+      this.finalpriceQuery=this.priceQuery[0];
+    }else{
+      total="";
+      this.priceQuery.forEach((item)=>{
+        if(total==""){
+          total=item;
+        }else{
+        total=total+","+item;
+        }
+    });
+      this.finalpriceQuery=`{$or:[${total}]}`;
+    }
+
+    if(this.colorQuery.length==0){
+      this.finalcolorQuery="";
+    }else{
+      total=""
+      this.colorQuery.forEach((item)=>{
+        if(total==""){
+          total=item;
+        }else{
+        total=total+","+item;
+        }
+    });
+      this.finalcolorQuery=`{$or:[${total}]}`;
+    }
+
+    if(this.sizeQuery.length==0){
+      this.finalsizeQuery="";
+    }else{
+      total=""
+      this.sizeQuery.forEach((item)=>{
+        if(total==""){
+          total=item;
+        }else{
+        total=total+","+item;
+        }
+      });
+      this.finalsizeQuery=`{$or:[${total}]}`;
+    }
+
+    this.changeShowing();
+  }
+  */
 
   filter(key:string) {
     this.resultFilter.clear();
@@ -143,7 +282,9 @@ export class ShopComponent implements OnInit {
         }else{
           this.priceFilter.clear()
           this.allProducts.forEach((product) => {
-            if (seletedP.has("$0 - $100") && product.price > 0 && product.price < 100) {
+            if (seletedP.has("$0 - $100")// && product.price > 0 && product.price < 100
+            ) {
+                this.priceQuery.push("{price: {$gt : 0}, price: {$lt:201}}");
               this.priceFilter.add(product.id);
             }
             else if (seletedP.has("$100 - $200") && product.price>100 && product.price<200) {
@@ -226,8 +367,23 @@ export class ShopComponent implements OnInit {
       console.log("result of filter = ", this.resultFilter);
   }
 
-  changeShowing(num:number){
-    this.showingNumber=num;
-    this.pageCount=Math.ceil(this.resultFilter.size/this.showingNumber);
+  changeShowing(){
+    this.ps.getMongoProductsPaginate(this.currentPage,this.limit,this.finalpriceQuery,this.finalcolorQuery,this.finalsizeQuery).subscribe((response)=>{
+      console.log(response);
+    },(err)=>{
+      console.log("An error when get product paginate ,"+ err);
+    })
   }
+
+  changeLimit(newLimit:number){
+    this.limit=newLimit;
+    this.changeShowing();
+  }
+
+  changeCurrentPage(newPage:number){
+    this.currentPage=newPage;
+    this.changeShowing()
+  }
+  
+  
 }
