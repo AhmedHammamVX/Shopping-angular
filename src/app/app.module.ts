@@ -22,6 +22,9 @@ import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
+// import { NgxSpinnerModule } from 'ngx-spinner';
+import { BigsearchComponent } from './bigsearch/bigsearch.component';
+
 
 @NgModule({
   declarations: [
@@ -42,13 +45,16 @@ import { SignupComponent } from './signup/signup.component';
     SearchComponent,
     SigninComponent,
     SignupComponent,
+    BigsearchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    // NgxSpinnerModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from '../services/product-service.service';
-
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,7 +8,7 @@ import { ProductServiceService } from '../services/product-service.service';
 })
 export class HomeComponent implements OnInit {
   
-  constructor(private Service:ProductServiceService) { }
+  constructor(private Service:ProductServiceService, private router: Router,) { }
   
   products:any []=[];
   
@@ -29,16 +28,24 @@ export class HomeComponent implements OnInit {
       console.log(iterator);
     }
   }
+  
+
+  goToProductDetails(productId: any) {
+    this.router.navigate(['/home', productId,])
+  }
 
   ngOnInit(): void {
+    
     arrOfProduct:Array<any>;
     this.Service.getMongoProducts().subscribe((receivedProducts)=>{
       localStorage.setItem("allProducts",JSON.stringify(receivedProducts));
       this.randomProducts(receivedProducts);
+      
     },
     (err)=>{
       console.log("there is an error in laoding products in home!")
     })
+  
   }
 
 }

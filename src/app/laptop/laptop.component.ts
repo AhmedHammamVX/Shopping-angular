@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ProductServiceService } from '../services/product-service.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 @Component({
   selector: 'app-laptop',
   templateUrl: './laptop.component.html',
@@ -7,16 +8,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LaptopComponent implements OnInit {
 
-  constructor() { }
-  products=[
-    {"id":1 , "name":"Dell" , "price":10000, "oprice":12000 ,"type":"NoDiscount","Disc":"256ssd 12Ram"},
-    {"id":2 , "name":"Sony" , "price":5000,"oprice":6000 ,"type":"Discount","Disc":"1Tssd 12Ram"},
-    {"id":3 , "name":"Toshiba" , "price":6000,"oprice":6500 ,"type":"NoDiscount","Disc":"256ssd 12Ram"},
-    {"id":4 , "name": "Acer" , "price":1200,"oprice":1300 ,"type":"Discount","Disc":"512ssd 12Ram"},
-    {"id":5 , "name":"Lenovo" , "price":10000 ,"oprice":12000 ,"type":"NoDiscount","Disc":"128ssd 12Ram"},
-
-  ]
-  ngOnInit(): void {
+  constructor(private Service: ProductServiceService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  products: any[] = [];
+  Tproducts: any[] = [];
+  ttproducts: any[] = [21,22,23,24,25];
+  goToProductDetails(productId: any) {
+    this.router.navigate(['/home/laptop', productId,])
   }
+  ngOnInit(): void {
+    this.Service.getMongoProducts().subscribe((receivedProducts) => {
+      this.products = receivedProducts as Array<any>;
+      this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+        for(let i=0;i<this.products.length;i++){
+          for(let l=0;l<this.ttproducts.length;l++){
+          if(this.products[i].id == this.ttproducts[l] )
+            this.Tproducts.push(this.products[i]);
+          }
+  
+        }
+        console.log(this.Tproducts);
+        console.log(this.Tproducts[1].name);
+      })
+    },
+      (err) => {
+        console.log("there is an error in laoding products in home!")
+      })
+
+  };
+  searchtext:string=''
+  onsearchtextenrt(searchvalue:string){
+    this.searchtext=searchvalue;
+    console.log(this.searchtext);
+  }
+
 
 }

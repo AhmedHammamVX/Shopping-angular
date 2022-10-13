@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ProductServiceService } from '../services/product-service.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
@@ -7,17 +8,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CameraComponent implements OnInit {
 
-  constructor() { }
-  products=[
-    {"id":1 , "name":"Nicon" , "price":10000, "oprice":12000 ,"type":"NoDiscount","Disc":"Black Camera"},
-    {"id":2 , "name":"Sony" , "price":5000,"oprice":6000 ,"type":"Discount","Disc":"Gray Camera"},
-    {"id":3 , "name":"Cannon" , "price":6000,"oprice":6500 ,"type":"NoDiscount","Disc":"Modern Camera"},
-    {"id":4 , "name": "Samsung T-shirt" , "price":1200,"oprice":1300 ,"type":"Discount","Disc":"White Camera"},
-    {"id":5 , "name":"Cannon" , "price":10000 ,"oprice":12000 ,"type":"NoDiscount","Disc":"Black Camera"},
-
-  ]
-
+  constructor(private Service: ProductServiceService, private activatedRoute: ActivatedRoute, private router: Router) { }
+ 
+  products: any[] = [];
+  Tproducts: any[] = [];
+  ttproducts: any[] = [1,2,3,4,5];
+  goToProductDetails(productId: any) {
+    this.router.navigate(['/home/t-shirts', productId,])
+  }
   ngOnInit(): void {
+    this.Service.getMongoProducts().subscribe((receivedProducts) => {
+      this.products = receivedProducts as Array<any>;
+      this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+        for(let i=0;i<this.products.length;i++){
+          for(let l=0;l<this.ttproducts.length;l++){
+          if(this.products[i].id == this.ttproducts[l] )
+            this.Tproducts.push(this.products[i]);
+          }
+  
+        }
+        console.log(this.Tproducts);
+      })
+    },
+      (err) => {
+        console.log("there is an error in laoding products in home!")
+      })
+
+  };
+  searchtext:string=''
+  onsearchtextenrt(searchvalue:string){
+    this.searchtext=searchvalue;
+    console.log(this.searchtext);
   }
 
 }
