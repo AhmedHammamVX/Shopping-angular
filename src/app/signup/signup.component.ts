@@ -5,8 +5,8 @@ import { ForbiddenNameValidator } from '../firstnameValidtor';
 import { passwordAspassword } from '../passwordAspassword';
 
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service';
-import { SigninService } from '../services/signin.service';
+import { AuthenticationService } from '../Services/authentication.service';
+import { SigninService } from '../Services/signin.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',

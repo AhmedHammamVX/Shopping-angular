@@ -2,8 +2,8 @@ import { Component, ElementRef, HostListener, OnChanges, OnInit, Renderer2, Simp
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service';
-import { SigninService } from '../services/signin.service';
+import { AuthenticationService } from '../Services/authentication.service';
+import { SigninService } from '../Services/signin.service';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -90,7 +90,7 @@ export class SigninComponent implements OnInit, OnChanges{
           if (data.result == 'wrong username or password') {
             alert('wrong username or password');
           } else {
-            sessionStorage.setItem('currentUser',data.userData)
+            sessionStorage.setItem('currentUser',JSON.stringify(data.userData))
             console.log("lastname: ",data.userData[0].lastname);
             this.sin.setSignin(false);
              this.sin.setWelcome(data.userData[0].lastname);

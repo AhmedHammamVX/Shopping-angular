@@ -12,7 +12,6 @@ import { ShopComponent } from './shop/shop.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ContactComponent } from './contact/contact.component';
-import { HttpClientModule } from '@angular/common/http';
 import { TshirtComponent } from './tshirt/tshirt.component';
 import { CameraComponent } from './camera/camera.component';
 import { LaptopComponent } from './laptop/laptop.component';
@@ -24,6 +23,12 @@ import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 // import { NgxSpinnerModule } from 'ngx-spinner';
 import { BigsearchComponent } from './bigsearch/bigsearch.component';
+import { HttpClientModule , HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { LoadingInterceptor } from './interceptor/loading.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -46,6 +51,7 @@ import { BigsearchComponent } from './bigsearch/bigsearch.component';
     SigninComponent,
     SignupComponent,
     BigsearchComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,9 +60,11 @@ import { BigsearchComponent } from './bigsearch/bigsearch.component';
     FormsModule,
     ReactiveFormsModule,
     // NgxSpinnerModule
-
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatButtonModule,
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

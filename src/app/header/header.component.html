@@ -42,7 +42,7 @@
                 </a>
                 <a href="" class="btn px-0 ml-2">
                     <i class="fas fa-shopping-cart text-dark"></i>
-                    <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px; margin-left: 5px;">5</span>
+                    <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px; margin-left: 5px;">{{productsCount}}</span>
                 </a>
             </div>
         </div>
@@ -101,20 +101,22 @@
                     <div class="navbar-nav mr-auto py-0">
                         <a routerLink="/home" class="nav-item nav-link" [routerLinkActive]="['active']">Home</a>
                         <a routerLink="/shop" class="nav-item nav-link" [routerLinkActive]="['active']">Shop</a>
-                        <div class="nav-item dropdown">
+                        <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                             <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
                                 <a routerLink="/cart" class="dropdown-item" [routerLinkActive]="['active']">Shopping Cart</a>
                                 <a routerLink="/checkout" class="dropdown-item" [routerLinkActive]="['active']">Checkout</a>
                             </div>
-                        </div>
-                        <a routerLink="/contact" class="nav-item nav-link" [routerLinkActive]="['active']">Contact</a>
+                        </div> -->
+                        <a routerLink="/cart" class="nav-item nav-link" [routerLinkActive]="['active']">Shopping Cart</a>
+                        <a routerLink="/bigsearch" class="nav-item nav-link" [routerLinkActive]="['active']">Search</a>
+                        <a routerLink="/contact" class="nav-item nav-link" [routerLinkActive]="['active']">Contact</a>  
                     </div>
-                    <a routerLink="/bigsearch" class="nav-item nav-link">Search In All Product</a>
+                    <!-- <a routerLink="/bigsearch" class="nav-item nav-link">Search In All Product</a> -->
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                         <a  style="color: white;" >
                             {{welcome}} &nbsp;
-                            
+
                         </a>
                         <a href="" class="btn px-0">
                             <i class="fas fa-heart text-primary"></i>
@@ -122,7 +124,7 @@
                         </a>
                         <a routerLink="/cart" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px; margin-left: 5px;">0</span>
+                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px; margin-left: 5px;">{{productsCount}}</span>
                         </a>
                     </div>
                 </div>

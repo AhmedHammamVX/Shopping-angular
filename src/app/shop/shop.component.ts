@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { __values } from 'tslib';
 import { ProductServiceService } from '../services/product-service.service';
+import { Title } from "@angular/platform-browser";
+import { CartServiceService } from '../Services/cart-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-shop',
@@ -33,7 +36,10 @@ export class ShopComponent implements OnInit {
   limit:number=10;
   currentPage:number=1;
 
-  constructor(private fb: FormBuilder , private ps:ProductServiceService) {
+  constructor(private fb: FormBuilder , private ps:ProductServiceService,private titleService: Title,private cartService:CartServiceService, private _snackBar: MatSnackBar) {
+    //setting page title
+    this.titleService.setTitle("Shop");
+
     this.priceForm = fb.group({
       selectedPrices: new FormArray([new FormControl("All Price")]),
     });
@@ -99,6 +105,25 @@ export class ShopComponent implements OnInit {
           break;
       }
     })
+  }
+
+  //add products to cart
+  addedProducts:any[]=[];
+  addProducts = (productId:number) =>{
+    if(!this.addedProducts.includes(productId))
+    {
+      this.addedProducts.push(productId);
+      this.cartService.addProductsToCard(productId);
+      console.log("added");//test
+      this.openSnackBar("Product added to cart!","ok");
+    }
+  }
+
+  //alerting
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   ngOnInit(): void {
