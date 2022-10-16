@@ -5,6 +5,8 @@ import { ProductServiceService } from '../services/product-service.service';
 import { Title } from "@angular/platform-browser";
 import { CartServiceService } from '../Services/cart-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-shop',
@@ -36,7 +38,7 @@ export class ShopComponent implements OnInit {
   limit:number=10;
   currentPage:number=1;
 
-  constructor(private fb: FormBuilder , private ps:ProductServiceService,private titleService: Title,private cartService:CartServiceService, private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private router: Router, private ps:ProductServiceService,private titleService: Title,private cartService:CartServiceService, private _snackBar: MatSnackBar) {
     //setting page title
     this.titleService.setTitle("Shop");
 
@@ -106,7 +108,9 @@ export class ShopComponent implements OnInit {
       }
     })
   }
-
+  goToProductDetails(productId: any) {
+    this.router.navigate(['/home/t-shirts', productId,])
+  }
   //add products to cart
   addedProducts:any[]=[];
   addProducts = (productId:number) =>{
